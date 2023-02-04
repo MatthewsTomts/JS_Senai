@@ -6,8 +6,8 @@ function pswGenerate() {
     
     var special = ['!','@','#','$','%','¨','&','*','(',')','_','-','+','=']
     var number = '0123456789'.split('');
-    var lower = "abcdefghijklmnopqrstuvwxyz".split('');
     var upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
+    var lower = listaALF.map(element => {return element.toLowerCase();});
     var main = []
 
     if (document.getElementById('special').checked) {
