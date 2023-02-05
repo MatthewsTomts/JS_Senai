@@ -4,15 +4,9 @@ var medias = ['']
 
 function montarTabela() {
     var tabela = document.getElementById('tabela')
-    var nomes = []
-    for (i = 0; i < linQtd; i++) {
-        var eleNome = document.getElementById(`nome${i}`)
-        if (eleNome && eleNome.value !== undefined) {
-            nomes.push(eleNome.value)
-        } else {
-            nomes.push('')
-        }
-    }
+    var nomes = datas()[0]
+    var notasGeral = ['']
+    notasGeral.splice(0, 1, datas(0)[1])
     tabela.innerHTML = `
     <thead>
         <tr>
@@ -24,9 +18,35 @@ function montarTabela() {
         </tr>
     </thead>
     <tbody id="tbody">
-        ${montarLin(medias, nomes)}
+        ${montarLin(medias, nomes, notasGeral)}
     </tbody>
     `
+}
+
+function datas(){
+    var nomes = []
+    var notasGeral = []
+    var cont = 0
+    for (i = 0; i < linQtd; i++) {
+        var eleNome = document.getElementById(`nome${i}`)
+        if (eleNome && eleNome.value !== undefined) {
+            nomes.push(eleNome.value)
+        } else {
+            nomes.push('')
+        }
+
+        var notas = []
+        for (j = 0; j < notasQtd; j++) {
+            cont++
+            var eleNota = document.getElementById(`not${cont}`)
+            if (eleNota) {
+                notas.push(eleNota.value)
+            }
+        }
+        notasGeral.push(notas)
+        console.log(notasGeral)
+    }
+    return [nomes, notasGeral]
 }
 
 function montarHeadNotas() {
@@ -37,13 +57,13 @@ function montarHeadNotas() {
     return notas
 }
 
-function montarLin(medias, nomes) {
+function montarLin(medias, nomes, notasGeral) {
     var linhas = ''
     cont = 0
     if (document.getElementById('nome0')) {console.log(document.getElementById('nome0').value)}
 
     for(i = 0; i < linQtd; i++) {
-        notaInd = montarNotaLin(cont)
+        notaInd = montarNotaLin(i, cont, notasGeral)
         cont = notaInd[1]
         linhas += `
         <tr>
@@ -58,11 +78,11 @@ function montarLin(medias, nomes) {
     return linhas
 }
 
-function montarNotaLin(cont) {
+function montarNotaLin(i, cont, notasGeral) {
     var notasLin = ''
     for(j = 0; j < notasQtd; j++) {
         cont += 1
-        notasLin += `<td><input type="number" class="form-control" id="not${cont}" placeholder=""></td>`
+        notasLin += `<td><input type="number" class="form-control" id="not${cont}" value="${notasGeral[0][i][j]}"></td>`
     }
     return [notasLin, cont]
 }
@@ -80,6 +100,7 @@ function addLin() {
 function addNotas() {
     if (notasQtd < 6){
         notasQtd += 1
+        notasGeral = datas()[1]
     } else {
         alert('Limite de notas atingido.')
     }
