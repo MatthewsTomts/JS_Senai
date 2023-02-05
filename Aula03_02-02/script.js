@@ -5,6 +5,7 @@ var medias = ['']
 function montarTabela() {
     var tabela = document.getElementById('tabela')
     var nomes = []
+    var notasGeral = []
     for (i = 0; i < linQtd; i++) {
         var eleNome = document.getElementById(`nome${i}`)
         if (eleNome && eleNome.value !== undefined) {
@@ -12,11 +13,22 @@ function montarTabela() {
         } else {
             nomes.push('')
         }
+
+        var notas = []
+        for (j = 0; j < notasQtd; j++) {
+            var eleNotas = document.getElementById(`not${i}${j}`)
+            if (eleNotas && eleNotas.value !== undefined) {
+                notas.push(eleNotas.value)
+            } else {
+                notas.push('')
+            }
+        }
+        notasGeral.push(notas)
     }
     tabela.innerHTML = `
     <thead>
         <tr>
-        <th scope="col">#</th>
+        <th scope="col">N°</th>
         <th scope="col">Nome</th>
         ${montarHeadNotas()}
         <th scope="col">Média</th>
@@ -24,7 +36,8 @@ function montarTabela() {
         </tr>
     </thead>
     <tbody id="tbody">
-        ${montarLin(medias, nomes)}
+        ${montarLin(medias, nomes, notasGeral)}
+        <td colspan="${notasQtd + 4}"><output>A média geral da sala: <br>Geral: ${mediaGeral(medias)}</output></td>
     </tbody>
     `
 }
@@ -37,37 +50,34 @@ function montarHeadNotas() {
     return notas
 }
 
-function montarLin(medias, nomes) {
+function montarLin(medias, nomes, notasGeral) {
     var linhas = ''
-    cont = 0
     if (document.getElementById('nome0')) {console.log(document.getElementById('nome0').value)}
 
     for(i = 0; i < linQtd; i++) {
-        notaInd = montarNotaLin(cont)
-        cont = notaInd[1]
+        notaInd = montarNotaLin(i, notasGeral)
         linhas += `
         <tr>
         <th>${i+1}</th>
         <td><input type="text" class="form-control" id="nome${i}" placeholder="nome" value="${nomes[i]}"></td>
-        ${notaInd[0]}
+        ${notaInd}
         <td><output>${medias[i]}</output></td>
-        <td><output></output></td>
+        <td><output>${situ(medias[i])}</output></td>
         </tr>
         `
     }
     return linhas
 }
 
-function montarNotaLin(cont) {
+function montarNotaLin(i, notasGeral) {
     var notasLin = ''
     for(j = 0; j < notasQtd; j++) {
-        cont += 1
-        notasLin += `<td><input type="number" class="form-control" id="not${cont}" placeholder=""></td>`
+        notasLin += `<td><input type="number" class="form-control" id="not${i}${j}" value="${notasGeral[i][j]}"></td>`
     }
-    return [notasLin, cont]
+    return notasLin
 }
 
-function addLin() {
+function addLin() { 
     if (linQtd < 10){
         linQtd += 1
         medias.push('')
@@ -106,13 +116,11 @@ function delNotas() {
 }
 
 function calcular() {
-    var cont = 0
     medias = []
     for(i = 0; i < linQtd; i++) {
         var soma = 0
         for (j = 0; j < notasQtd; j++) {
-            cont++
-            soma += parseInt(document.getElementById(`not${cont}`).value)
+            soma += parseInt(document.getElementById(`not${i}${j}`).value)
         }
         var med = soma / notasQtd
         if (isNaN(med)) {
@@ -122,4 +130,28 @@ function calcular() {
         }
     }
     montarTabela()
+}
+
+function situ(media) {
+    if (media == '') {
+        return ''
+    } if (media >= 70){
+        return 'Aprovado'
+    } else if (media >= 50) {
+        return 'Recuperação'
+    } else {
+        return 'Reprovado'
+    }
+}
+
+function mediaGeral(medias) {
+    var soma = 0
+    for(const nota of medias) {
+        if (!isNaN(parseInt(nota))) {
+            soma += parseInt(nota)
+        } else {
+            return ''
+        }
+    }
+    return (soma / medias.length).toFixed(2)
 }
