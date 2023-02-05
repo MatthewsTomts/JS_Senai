@@ -1,11 +1,40 @@
 var linQtd = 1
 var notasQtd = 1
 var medias = ['']
+var ordNum = 0
 
-function montarTabela() {
+function montarTabela(ordAlph = false, ordNum = 0) {
     var tabela = document.getElementById('tabela')
+    dados = datasLin(ordAlph, ordNum)
+    tabela.innerHTML = `
+    <thead>
+        <tr>
+        <th scope="col">N°</th>
+        <th scope="col">Nome</th>
+        ${montarHeadNotas()}
+        <th scope="col">Média</th>
+        <th scope="col">Situação</th>
+        </tr>
+    </thead>
+    <tbody id="tbody">
+        ${montarLin(medias, dados[0], dados[1])}
+        <td colspan="${notasQtd + 4}"><output>A média geral da sala: <br>Geral: ${mediaGeral(medias)}</output></td>
+    </tbody>
+    `
+}
+
+function montarHeadNotas() {
+    var notas = ''
+    for(i = 1; i <= notasQtd; i++) {
+        notas += `<th scope='col'>Nota ${i}</th>`
+    }
+    return notas
+}
+
+function datasLin(ordAlph, ordNum) {
     var nomes = []
     var notasGeral = []
+
     for (i = 0; i < linQtd; i++) {
         var eleNome = document.getElementById(`nome${i}`)
         if (eleNome && eleNome.value !== undefined) {
@@ -25,34 +54,37 @@ function montarTabela() {
         }
         notasGeral.push(notas)
     }
-    tabela.innerHTML = `
-    <thead>
-        <tr>
-        <th scope="col">N°</th>
-        <th scope="col">Nome</th>
-        ${montarHeadNotas()}
-        <th scope="col">Média</th>
-        <th scope="col">Situação</th>
-        </tr>
-    </thead>
-    <tbody id="tbody">
-        ${montarLin(medias, nomes, notasGeral)}
-        <td colspan="${notasQtd + 4}"><output>A média geral da sala: <br>Geral: ${mediaGeral(medias)}</output></td>
-    </tbody>
-    `
-}
+    
+    if (ordAlph) {
+        var lista = [];
+        for (var j = 0; j < nomes.length; j++) 
+            lista.push({'nome': nomes[j], 'nota': notasGeral[j]});
 
-function montarHeadNotas() {
-    var notas = ''
-    for(i = 1; i <= notasQtd; i++) {
-        notas += `<th scope='col'>Nota ${i}</th>`
+        lista.sort(function(a, b) {
+            return ((a.nome < b.nome) ? -1 : ((a.nome == b.nome) ? 0 : 1));
+        });
+
+        for (var k = 0; k < lista.length; k++) {
+            nomes[k] = lista[k].nome;
+            notasGeral[k] = lista[k].nota;
+        }
+    } else if (ordNum != 0) {
+        // var lista = [];
+        // for (var j = 0; j < nomes.length; j++) 
+        //     lista.push({'nome': nomes[j], 'nota': notasGeral[j]});
+
+        
+
+        // for (var k = 0; k < lista.length; k++) {
+        //     nomes[k] = lista[k].nome;
+        //     notasGeral[k] = lista[k].nota;
+        // }
     }
-    return notas
+    return [nomes, notasGeral]
 }
 
 function montarLin(medias, nomes, notasGeral) {
     var linhas = ''
-    if (document.getElementById('nome0')) {console.log(document.getElementById('nome0').value)}
 
     for(i = 0; i < linQtd; i++) {
         notaInd = montarNotaLin(i, notasGeral)
@@ -154,4 +186,16 @@ function mediaGeral(medias) {
         }
     }
     return (soma / medias.length).toFixed(2)
+}
+
+function ordemAlph() {
+    montarTabela(true)
+}
+
+function ordemNum() {
+    if (ordNum == 1) {
+        montarTabela(ordNum = -1)
+    } else {
+        montarTabela(ordNum = 1)
+    }
 }
