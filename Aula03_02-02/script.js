@@ -109,7 +109,7 @@ function addLin() {
     } else {
         alert('Limite de linhas atingido.')
     }
-    montarTabela(ordem)
+    montarTabela(0)
 }
 
 function addNotas() {
@@ -122,7 +122,7 @@ function addNotas() {
     for (i = 0; i < notasQtd; i++) {
         medias.push('')
     }
-    montarTabela(ordem)
+    montarTabela(0)
 }
 
 function delLin() {
@@ -132,7 +132,7 @@ function delLin() {
     } else {
         alert('Limite de linhas atingido.')
     }
-    montarTabela(ordem)
+    montarTabela(0)
 }
 
 function delNotas() {
@@ -141,7 +141,7 @@ function delNotas() {
     } else {
         alert('Limite de notas atingido.')
     }
-    montarTabela(ordem)
+    montarTabela(0)
 }
 
 function calcular() {
@@ -158,7 +158,7 @@ function calcular() {
             medias.splice(i, 0, med.toFixed(2))
         }
     }
-    montarTabela(ordem)
+    montarTabela(0)
 }
 
 function situ(media) {
