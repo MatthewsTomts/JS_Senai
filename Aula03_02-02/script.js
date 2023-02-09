@@ -197,5 +197,6 @@ function ordemNum() {
     } else if (ordem == -2) {
         ordem += 1
     }
+    if (ordem == 0) ordem = 1
     montarTabela(ordem)
 }
