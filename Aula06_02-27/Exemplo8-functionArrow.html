@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <script></script> -->
+    <title>javaScript</title>
+</head>
+<body>
+    <script>
+        
+        const increment1 = function(n){
+            return n + 1
+        }
+
+        // Arrow function is always anonymus
+        const increment2 = (n) =>{  
+            return n + 1
+        }
+
+        const increment3 = n =>{
+            return n + 1  
+        }
+
+        //return implicito
+        const increment4 = n => n + 1 
+
+        const increment5 = (a , b) => a + b
+
+        console.log(increment1(1))
+        console.log(increment2(33))
+        console.log(increment3(455))
+        console.log(increment4(2))
+        console.log(increment5(4 , 5))
+
+        const somar = (...numeros) =>{
+
+            let total = 0
+            for(let n of numeros){
+                total += n
+            }
+            return total
+        }
+
+
+        console.log(somar(1,2,3,3))
+        console.log(somar(1,2,3,4,5,6))
+        console.log(somar(1,2,3,4,5,6,7,8,9))
+
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+</html>

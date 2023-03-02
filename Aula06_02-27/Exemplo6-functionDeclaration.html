@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <script></script> -->
+    <title>javaScript</title>
+</head>
+<body>
+    <script>
+        // var x = prompt()
+        // alert(x)
+        // function escreverNome(){
+        //     console.log("JUlio FM")
+        // }
+
+        // escreverNome()
+
+        // function soma(numero){
+        //     var resultado = numero + 1
+        //     return resultado
+        // }
+        // // var x = 200
+        // var  resultadoSoma = 200
+        // while(resultadoSoma < 210){
+        //     resultadoSoma = soma(resultadoSoma)
+        //     // x = resultadoSoma
+        // }
+        // console.log(resultadoSoma)
+        var temperatura
+        var tempConvertida
+
+        var temperatura = prompt("Insira a temperatura:")
+
+        temperatura = parseFloat(temperatura)
+
+        tempConvertida = conversorCF(temperatura)
+
+        alert(tempConvertida)
+        //function Declaration    
+        function conversorCF(temp){
+            let fah = (temp * 1.8) + 32
+            return fah
+        }
+
+
+    </script>
+</body>
+</html>
