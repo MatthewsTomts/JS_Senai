@@ -134,42 +134,56 @@ function montarNotaLin(i, notasGeral) {
 }
 
 function addLin() { 
+    // Verifica se as linhas já atingiram o limite de 10
     if (linQtd < 10){
+        // Caso não adiciona mais uma
         linQtd += 1
         medias.push('')
     } else {
+        // Se sim, avisa ao usuário
         alert('Limite de linhas atingido.')
     }
     montarTabela(0)
 }
 
 function addNotas() {
+    // Verifica se as notas já atingiram o limite de 6
     if (notasQtd < 6){
+        // Caso não adiciona mais uma e esvazia as médias
         notasQtd += 1
+        medias = []
+        for (i = 0; i < notasQtd; i++) {
+            medias.push('')
+        }
     } else {
+        // Se sim, avisa ao usuário
         alert('Limite de notas atingido.')
     }
-    medias = []
-    for (i = 0; i < notasQtd; i++) {
-        medias.push('')
-    }
+
+    
     montarTabela(0)
 }
 
 function delLin() {
+    // Verifica se há apenas uma linha na tabela
     if (linQtd > 1){
+        // Se tiver mais, remove uma e retira a ultima média da lista
         linQtd -= 1
         medias.slice(0, -1);
     } else {
+        // Se não avisa ao usuário que não é permitido remover mais linhas
         alert('Limite de linhas atingido.')
     }
     montarTabela(0)
 }
 
 function delNotas() {
+    // Verifica se há apenas uma nota na tabela
     if (notasQtd > 1){
+        // Se tiver mais, remove uma
         notasQtd -= 1
     } else {
+        // Se não avisa ao usuário que não é permitido remover mais notas
         alert('Limite de notas atingido.')
     }
     montarTabela(0)
@@ -177,15 +191,21 @@ function delNotas() {
 
 function calcular() {
     medias = []
+    // Cria um loop de acordo com as linhas
     for(i = 0; i < linQtd; i++) {
         var soma = 0
+        // Soma todas as notas daquela linhas, fazendo a busca através do id
         for (j = 0; j < notasQtd; j++) {
             soma += parseInt(document.getElementById(`not${i}${j}`).value)
         }
+        // Logo após calcula a média
         var med = soma / notasQtd
+
+        // Caso a média seja NaN, ou seja, esteja faltando uma nota na linha, a média continua vazia
         if (isNaN(med)) {
             medias.splice(i, 0, '')
         } else {
+            // Se não adiciona a média a lista de média com duas casas decimais
             medias.splice(i, 0, med.toFixed(2))
         }
     }
