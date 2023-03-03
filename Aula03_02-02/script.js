@@ -89,6 +89,8 @@ function datasLin(ordem) {
 
 function montarHeadNotas() {
     var notas = ''
+    // Monta um head pras notas de acordo com a quantidade de notas
+    // que é definido pelo notasQtd
     for(i = 1; i <= notasQtd; i++) {
         notas += `<th scope='col'>Nota ${i}</th>`
     }
@@ -98,14 +100,21 @@ function montarHeadNotas() {
 function montarLin(medias, nomes, notasGeral) {
     var linhas = ''
 
+    // Cria as linhas da tabela
     for(i = 0; i < linQtd; i++) {
-        notaInd = montarNotaLin(i, notasGeral)
+        // Monta as notas da linha atual, utilizando as notas da sala, e o index linha atual
+        notaInd = montarNotaLin(i, notasGeral) 
         linhas += `
         <tr>
+        <!-- Cria a numeração da linha -->
         <th>${i+1}</th>
+        <!-- Cria a linha utilizando o nome da linha atual, e criando o id de acordo com a linha -->
         <td><input type="text" class="form-control" id="nome${i}" placeholder="nome" value="${nomes[i]}"></td>
+        <!-- Adiciona a linha criada na função montarNotaLin -->
         ${notaInd}
+        <!-- Adiciona a média do aluno de acordo com a linha -->
         <td><output>${medias[i]}</output></td>
+        <!-- Chama a função que verifica qual a situação do aluno atual -->
         <td><output>${situ(medias[i])}</output></td>
         </tr>
         `
@@ -116,7 +125,10 @@ function montarLin(medias, nomes, notasGeral) {
 function montarNotaLin(i, notasGeral) {
     var notasLin = ''
     for(j = 0; j < notasQtd; j++) {
-        notasLin += `<td><input type="number" class="form-control" id="not${i}${j}" value="${notasGeral[i][j]}"></td>`
+        // Cria as data cells das notas, com o id criado a partir da linha e coluna que ele taá
+        notasLin += `<td><input type="number" class="form-control" id="not${i}${j}" 
+        value="${notasGeral[i][j]}"></td>`
+        // Busca a nota que está na linha e na coluna atual
     }
     return notasLin
 }
@@ -181,41 +193,56 @@ function calcular() {
 }
 
 function situ(media) {
+    // Verifica a nota do aluno
+    // Caso esteja vazio, a situação será vazia também
     if (media == '') {
         return ''
-    } if (media >= 70){
+    } else if (media >= 70){
+        // Caso a média esteja acima de 70, a situação será Aprovado
         return 'Aprovado'
     } else if (media >= 50) {
+        // Caso a média esteja acima de 50 e abaixo de 70, a situação será Recuperação
         return 'Recuperação'
     } else {
+        // Caso a média esteja abaixo de 50, a situação será Reprovado
         return 'Reprovado'
     }
 }
 
 function mediaGeral(medias) {
     var soma = 0
+    // Faz um loop no medias
     for(const nota of medias) {
+        // Verifica se a nota é válida
         if (!isNaN(parseInt(nota))) {
+            // Caso seja adiciona em soma
             soma += parseInt(nota)
         } else {
+            // Caso não seja retorna '' e a média geral fica vázia
             return ''
         }
     }
+    // Caso o for chegue ao final, é calculado a media da sala
     return (soma / medias.length).toFixed(2)
 }
 
 function ordemAlph() {
+    // Se o botão Ordem Alfabética for apertado a tabela é gerado com ordem alfabética
     ordem = 2
     montarTabela(ordem)
 }
 
 function ordemNum() {
+    // Se o botão Ordem Crescente/Descrescent for apertado a tabela é gerado em ordem Crescente/Descrescente
+    // Muda a ordem anterior
     ordem = parseInt(document.getElementById("odd").innerText) * -1
-    if (ordem == 2) {
-        ordem -= 1
-    } else if (ordem == -2) {
+
+    // Caso a ordem anterior tenha sido alfabética
+    if (ordem == -2) {
         ordem += 1
     }
+
+    // Caso a ordem for 0, ou seja mantendo a ordem atual, ele troca para ordem crescente
     if (ordem == 0) ordem = 1
     montarTabela(ordem)
 }
