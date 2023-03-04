@@ -1,3 +1,5 @@
+import { situ, mediaGeral } from "./calculo.js";
+
 var linQtd = 1 // Determina a quantidade de linhas/alunos
 var notasQtd = 1 // Determina a quantidade de notas
 var medias = ['']
@@ -42,14 +44,6 @@ function montarTabela(ordem) {
     `
 }
 
-function montarHeadNotas() {
-    var notas = ''
-    for(var i = 1; i <= notasQtd; i++) {
-        notas += `<th scope='col'>Nota ${i}</th>`
-    }
-    return notas
-}
-
 function datasLin(ordem) {
     var nomes = []
     var notasGeral = []
@@ -63,7 +57,7 @@ function datasLin(ordem) {
         }
 
         var notas = []
-        for (j = 0; j < notasQtd; j++) {
+        for (var j = 0; j < notasQtd; j++) {
             var eleNotas = document.getElementById(`not${i}${j}`)
             if (eleNotas && eleNotas.value !== undefined) {
                 notas.push(eleNotas.value)
@@ -73,7 +67,10 @@ function datasLin(ordem) {
         }
         notasGeral.push(notas)
     }
-    
+    return ordernar(nomes, notasGeral, ordem)
+}
+
+function ordernar(nomes, notasGeral, ordem) {
     var lista = [];
     for (var j = 0; j < nomes.length; j++) 
         lista.push({'nome': nomes[j], 'nota': notasGeral[j], 'media': medias[j]});
@@ -92,6 +89,14 @@ function datasLin(ordem) {
         medias[k] = lista[k].media;
     }
     return [nomes, notasGeral]
+}
+
+function montarHeadNotas() {
+    var notas = ''
+    for(var i = 1; i <= notasQtd; i++) {
+        notas += `<th scope='col'>Nota ${i}</th>`
+    }
+    return notas
 }
 
 function montarLin(medias, nomes, notasGeral) {
@@ -118,30 +123,6 @@ function montarNotaLin(i, notasGeral) {
         notasLin += `<td><input type="number" class="form-control" id="not${i}${j}" value="${notasGeral[i][j]}"></td>`
     }
     return notasLin
-}
-
-function situ(media) {
-    if (media == '') {
-        return ''
-    } if (media >= 70){
-        return 'Aprovado'
-    } else if (media >= 50) {
-        return 'Recuperação'
-    } else {
-        return 'Reprovado'
-    }
-}
-
-function mediaGeral(medias) {
-    var soma = 0
-    for(const nota of medias) {
-        if (!isNaN(parseInt(nota))) {
-            soma += parseInt(nota)
-        } else {
-            return ''
-        }
-    }
-    return (soma / medias.length).toFixed(2)
-}   
+} 
 
 export { linQtd, setLinQtd, notasQtd, setNotasQtd, medias, setMedias, montarTabela }
