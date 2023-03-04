@@ -5,14 +5,17 @@ var notasQtd = 1 // Determina a quantidade de notas
 var medias = ['']
 
 function setLinQtd(value) {
+    // Seta um novo valor para linQtd
     linQtd = value
 }
 
 function setNotasQtd(value) {
+    // Seta um novo valor para notasQtd
     notasQtd = value
 }
 
 function setMedias(value) {
+    // Seta um novo valor para medias
     medias = value
 }
 
@@ -48,8 +51,11 @@ function datasLin(ordem) {
     var nomes = []
     var notasGeral = []
 
+    // A cada loop irá pegar os nomes dos alunos
     for (var i = 0; i < linQtd; i++) {
+        // Busca o elemento que armazena os nomes de acordo com o id, que é determinado pela linha
         var eleNome = document.getElementById(`nome${i}`)
+        // Verifica se o elemento é undefined, se não for armazena na lista de nomes
         if (eleNome && eleNome.value !== undefined) {
             nomes.push(eleNome.value)
         } else {
@@ -57,23 +63,32 @@ function datasLin(ordem) {
         }
 
         var notas = []
+        // A cada loop irá pegar as notas do aluno atual
         for (var j = 0; j < notasQtd; j++) {
+            // Busca o elemento que armazena os nomes de acordo com o id, que é determinado pela linha e coluna
             var eleNotas = document.getElementById(`not${i}${j}`)
+            // Verifica se o elemento é undefined, se não for armazena na lista de notas
             if (eleNotas && eleNotas.value !== undefined) {
                 notas.push(eleNotas.value)
             } else {
                 notas.push('')
             }
         }
+        // Armazena as notas do aluno atual na lista de notas da sala, criando uma matriz
         notasGeral.push(notas)
     }
     return ordernar(nomes, notasGeral, ordem)
 }
 
 function ordernar(nomes, notasGeral, ordem) {
+    // Cria uma lista que armazenará os dados de cada linha
     var lista = [];
     for (var j = 0; j < nomes.length; j++) 
         lista.push({'nome': nomes[j], 'nota': notasGeral[j], 'media': medias[j]});
+    // Utilizando a lista criada organizará as notas de acordo com os nomes, 
+    // que serão ordenados em ordem alfabética
+    // se ordem for == 2, se não se for diferente de 0 e igual a -1, é descrescente
+    // se for igual a 1, é crescente
     if (ordem == 2) {
         lista.sort(function(a, b) {
             return ((a.nome < b.nome) ? -1 : ((a.nome == b.nome) ? 0 : 1));
@@ -83,6 +98,8 @@ function ordernar(nomes, notasGeral, ordem) {
             return (a.media - b.media) * ordem;
         });
     }
+
+    // Utilizando a lista das linhas, irá atualizar as listas de nome, notas da sala e medias
     for (var k = 0; k < lista.length; k++) {
         nomes[k] = lista[k].nome;
         notasGeral[k] = lista[k].nota;
@@ -93,6 +110,8 @@ function ordernar(nomes, notasGeral, ordem) {
 
 function montarHeadNotas() {
     var notas = ''
+    // Monta um head pras notas de acordo com a quantidade de notas
+    // que é definido pelo notasQtd
     for(var i = 1; i <= notasQtd; i++) {
         notas += `<th scope='col'>Nota ${i}</th>`
     }
@@ -102,14 +121,21 @@ function montarHeadNotas() {
 function montarLin(medias, nomes, notasGeral) {
     var linhas = ''
 
+    // Cria as linhas da tabela
     for(var i = 0; i < linQtd; i++) {
-        var notaInd = montarNotaLin(i, notasGeral)
+        // Monta as notas da linha atual, utilizando as notas da sala, e o index linha atual
+        var notaInd = montarNotaLin(i, notasGeral) 
         linhas += `
         <tr>
+        <!-- Cria a numeração da linha -->
         <th>${i+1}</th>
+        <!-- Cria a linha utilizando o nome da linha atual, e criando o id de acordo com a linha -->
         <td><input type="text" class="form-control" id="nome${i}" placeholder="nome" value="${nomes[i]}"></td>
+        <!-- Adiciona a linha criada na função montarNotaLin -->
         ${notaInd}
+        <!-- Adiciona a média do aluno de acordo com a linha -->
         <td><output>${medias[i]}</output></td>
+        <!-- Chama a função que verifica qual a situação do aluno atual -->
         <td><output>${situ(medias[i])}</output></td>
         </tr>
         `
@@ -120,7 +146,10 @@ function montarLin(medias, nomes, notasGeral) {
 function montarNotaLin(i, notasGeral) {
     var notasLin = ''
     for(var j = 0; j < notasQtd; j++) {
-        notasLin += `<td><input type="number" class="form-control" id="not${i}${j}" value="${notasGeral[i][j]}"></td>`
+        // Cria as data cells das notas, com o id criado a partir da linha e coluna que ele taá
+        notasLin += `<td><input type="number" class="form-control" id="not${i}${j}" 
+        value="${notasGeral[i][j]}"></td>`
+        // Busca a nota que está na linha e na coluna atual
     }
     return notasLin
 } 
