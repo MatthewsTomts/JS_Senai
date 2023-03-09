@@ -31,7 +31,24 @@ function calcula() {
     nums = []
     num = []
     ops = []
+
+    
     if (formula.split("(").length - 1 == formula.split(")").length - 1) {
+        let parAbre =  formula.lastIndexOf('(');
+    
+        let parFec = []
+        let idxFec = formula.indexOf(')');
+        while (idxFec != -1) {
+            parFec.push(idxFec)
+            idxFec = formula.indexOf(')', idxFec+1)
+        }
+    
+        for (let i=0; i < parFec.length; i++) {
+            if (parFec[i] > parAbre) {
+                calcula()
+            }
+        }
+
         for (i=0; i < formula.length; i++) {
             if (formula[i] != '+' && formula[i] != '-' && formula[i] != '/' && formula[i] != "x") {
                 num.push(formula[i])
