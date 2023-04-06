@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // let url = 'https://api.sheety.co/6eda3950458edd63e7ee5ffdb9e6d471/falmengo/alunos';
+        // fetch(url)
+        // .then((response) => {
+        //     console.log(response)
+        //     return response.json()
+        // })
+        // .then(json => {
+        // // Do something with the data
+        // console.log(json)
+
+        // alunos = json.alunos
+        // for (i = alunos.length - 1; i >= 0; i--) {
+        //     console.log(alunos[i].nome)
+        // }
+        // });
+
+        // let url = 'https://api.sheety.co/6eda3950458edd63e7ee5ffdb9e6d471/falmengo/alunos';
+        // let body = {
+        //     aluno: {
+        //         'nome': 'Luis Felipe',
+        //         'matrícula': 1024,
+        //         'turno': 'vespertino'
+        //     }
+        // }
+        // fetch(url, {
+        //     method: 'POST',
+        //     body: JSON.stringify(body),
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     }
+        // })
+        // .then((response) => response.json())
+        // .then(json => {
+        //     // Do something with object
+        //     console.log(json.aluno);
+        // });
+
+        // let url = 'https://api.sheety.co/6eda3950458edd63e7ee5ffdb9e6d471/falmengo/alunos/2';
+        // let body = {
+        //     aluno: {
+        //         'nome': 'Luis Feipe',
+        //         'matrícula': 1026,
+        //         'turno': 'vespertino'
+        //     }
+        // }
+
+        // fetch(url, {
+        //     method: 'PUT',
+        //     body: JSON.stringify(body),
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     }
+        // }).then((response) => response.json())
+        // .then(json => {
+        // // Do something with object
+        // console.log(json.aluno);
+        // });
+
+        let url = 'https://api.sheety.co/6eda3950458edd63e7ee5ffdb9e6d471/falmengo/alunos/2';
+        fetch(url, {
+            method: 'DELETE',
+        }).then((response) => response)
+        .then(() => {
+        console.log('Object deleted');
+        });
+    </script>
+</body>
+</html>
