@@ -1,14 +1,14 @@
-resultado = document.getElementById('answer')
+var resultado = document.getElementById('answer')
 
 function pswGenerate() {
-    var tamanho = document.getElementById('pswLeght').value
-    var qnt = document.getElementById('pswQtd').value
+    let tamanho = document.getElementById('pswLeght').value
+    let qnt = document.getElementById('pswQtd').value
     
-    var special = ['!','@','#','$','%','¨','&','*','(',')','_','-','+','=']
-    var number = '0123456789'.split('');
-    var upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
-    var lower = listaALF.map(element => {return element.toLowerCase();});
-    var main = []
+    let special = ['!','@','#','$','%','¨','&','*','(',')','_','-','+','=']
+    let number = '0123456789'.split('');
+    let upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
+    let lower = upper.map(element => {return element.toLowerCase();});
+    let main = []
 
     if (document.getElementById('special').checked) {
         main = main.concat(special)
@@ -26,9 +26,14 @@ function pswGenerate() {
         main = main.concat(lower)
     }
 
-    var senhas = []
+    if (main.length == 0) {
+        resultado.innerHTML = "Selecione uma opção de caracteres"
+        return 0
+    }
+
+    let senhas = []
     for (i = 0; i < qnt; i++){
-        var senha = ''
+        let senha = ''
         for (j = 0; j < tamanho; j++) {
             senha += main[Math.floor(Math.random() * main.length)]
         }
