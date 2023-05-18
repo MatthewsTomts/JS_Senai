@@ -34,15 +34,16 @@ function index() {
     var chaves = Object.keys(index)
     var tamanhoPag = Math.floor(chaves.length / 10)
 
-    for (i = paginacao; i < paginacao; i++) {
-        var formattedKey = keys
+    for (i = paginacao; i < paginacao + 10; i++) {
+        var formattedKey = chaves[i]
         .replace(/-/g, ' ')
         .toLowerCase()
         .replace(/(^|\s)\S/g, function(firstLetter) {
             return firstLetter.toUpperCase();
         });
 
-        lista.innerHTML += `<li><a href='./index.html?index=${keys}'>${formattedKey}</a></li>`
+        index = chaves[i]
+        lista.innerHTML += `<li><a href='./index.html?index=${index}'>${i+1}. ${formattedKey}</a></li>`
     }
 
     document.getElementById('paginacao').innerHTML = `<a href='./index.html?pag=0&index=${index}'>
