@@ -2,13 +2,20 @@ function printa(char) {
     let formula = document.getElementById('formula').innerHTML
 
     let last = formula[formula.length-1]
-    let first = (last == "+" || last == "-" || last == "/" || last == "x" || last == ",") 
-    let insert = char == "+"  || char == "/" || char == 'x' || char == "," || char == ")"
-    let neg = (last == '-' || last == ',') && char == '-'
+    let firstV = (last == "+" || last == "-" || last == "/" || last == "x" || last == ",") 
+    let insertV = char == "+"  || char == "/" || char == 'x' || char == ","
+    let negV = (last == '-' || last == ',') && char == '-'
 
-    if ((first || last == "(" || last == undefined) && insert || neg || first && char == "("){
+    if (formula.split("(").length - 1 < formula.split(")").length && char == ")") {
+        alert('Não pode ter mais ")" do que "("')
+    } else if (
+        ((firstV || last == "(" || last == undefined) && insertV) 
+        || (negV) 
+        || (firstV && char == "(") 
+        || ((firstV || last == "(") && char == ")")
+    ){
         alert('Não é possível adicionar um operador nesta posição.')
-    } else {
+    }  else {
         document.getElementById('formula').innerHTML += char
     }
 }
