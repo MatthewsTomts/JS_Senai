@@ -85,6 +85,11 @@ function page1() {
     var index = params.get('index');
     let lista = document.getElementById('listagem')
     var pag = parseInt(params.get('pag'));
+    document.title = index.replace(/-/g, ' ')
+    .toLowerCase()
+    .replace(/(^|\s)\S/g, function(firstLetter) {
+        return firstLetter.toUpperCase();
+    });
 
     if (pag == null || isNaN(pag)) {
         pag = 0;
@@ -110,6 +115,7 @@ function page1() {
         if (options.length == i) {
             break;
         }
+
         lista.innerHTML += `<li><a href='./pageDesc.html?index=${index}&desc=${options[i].index}'>${i+1}. ${options[i].name}</a></li>`
     }
 
@@ -148,15 +154,49 @@ function pageDesc() {
     var index = params.get('index');
     var desc = params.get('desc');
     let div = document.getElementById('card');
-
+    
     fetch(url + index + "/" + desc)
     .then(response => response.json())
     .then(json => {
         desc = json
         console.log(desc)
-        div.innerHTML = `
-            <h1>${desc.name}</h1>
-            <p>${desc.desc}</p>`
 
+        if (index == "ability-scores") {
+            titulo = desc.full_name
+            document.title = desc.full_name;
+        } else {
+            titulo = desc.name
+            document.title = desc.name;
+        }
+
+        if (index == "classes") {
+            descricao = ""
+            for (classe = 0; classe < desc.proficiencies.length; classe++) {
+                descricao += "<p>" + desc.proficiencies[classe].name + "</p>"
+            }
+        } else {
+            descricao = "<p>" + desc.desc + "</p>"
+        }
+
+        div.innerHTML = `
+            <h1>${titulo}</h1>
+            <div id='desc'>${descricao}</div>
+            <a href="./index.html?index=${index}">Go Back</a>`
+
+        if (index == "ability-scores") {
+            links = ''
+            links +=  `<div id='links'>`
+
+            for (j = 0; j < desc.skills.length; j++) {
+                links += `<a href="./pageDesc.html?index=skills&desc=${desc.skills[j].index}">${desc.skills[j].name}</a>`
+            }
+
+            links +=  `</div>`
+            div.innerHTML += links;
+        }
+
+        if (index == "skills") {
+            div.innerHTML += `<a href="./pageDesc.html?index=ability-scores&desc=${desc.ability_score.index}">${desc.ability_score.name}</a>`
+        }
     })
 }

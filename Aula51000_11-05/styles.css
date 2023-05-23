@@ -1,3 +1,13 @@
+@font-face {
+    font-family: 'Breathe Fire III';
+    src: url('DragonHunter-9Ynxj.otf');
+}
+
+* {
+    font-family: 'Breathe Fire III';
+    color: #7e00af;
+}
+
 body {
     height: 95vh;
     font-family: Arial, sans-serif;
@@ -5,12 +15,14 @@ body {
     padding: 20px;
 
     display: grid;
-    grid-template: 50px 60px 230px 60px 1fr / 1fr 400px 1fr;
+    grid-template: 50px 60px 400px 60px 1fr / 1fr 400px 1fr;
     overflow-x: hidden;
+
+    background-color: rgb(250, 237, 255);
 }
 
 #Chuck {
-    width: 130vw;
+    width: 100vw;
     grid-column: 1 / 4;
     animation: moveText 25s linear infinite;
 }
@@ -20,28 +32,32 @@ body {
         transform: translateX(100%);
     }
     100% {
-        transform: translateX(-70%);
+        transform: translateX(-100%);
     }
 }
 
 #Titulo {
+    text-align: center;
     grid-area: 2 / 2;
-    color: #333;
 }
 
 #listagem {
+    margin-left: 60px;
     grid-area: 3 / 2;
     list-style-type: none;
     padding-left: 20px;
+    font-size: 18px;
 }
 
 #paginacao {
+    text-align: center;
     grid-area: 4 / 2;
+    justify-content: space-between;
+    font-size: 18px;
 }
 
 a {
     text-decoration: none;
-    color: rgb(153, 0, 173);
 }
 
 #cat {
@@ -51,19 +67,19 @@ a {
     height: auto;
     margin-top: 20px;
 
-    animation: fadeIn 5s linear;
+    animation: fadeIn 10s linear infinite;
 }
 
 @keyframes fadeIn {
     0% {
-        opacity: 0;
         transform: translateX(-150%);
     }
+
     50% {
-        transform: translateX(130%);
+        transform: translateX(150%);
     }
+
     100% {
-        opacity: 1;
-        transform: translateX(0%);
+        transform: translateX(-150%);
     }
 }
