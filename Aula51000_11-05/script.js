@@ -30,11 +30,15 @@ function index() {
     .then(json => {
     // Do something with the data
     index = json
-
+    console.log(index)
     var chaves = Object.keys(index)
-    var tamanhoPag = Math.floor(chaves.length / 10)
+    var tamanhoPag = Math.ceil(chaves.length / 10)
 
     for (i = paginacao; i < paginacao + 10; i++) {
+        if (chaves.length == i) {
+            break;
+        }
+
         var formattedKey = chaves[i]
         .replace(/-/g, ' ')
         .toLowerCase()
@@ -46,17 +50,17 @@ function index() {
         lista.innerHTML += `<li><a href='./index.html?index=${index}'>${i+1}. ${formattedKey}</a></li>`
     }
 
-    document.getElementById('paginacao').innerHTML = `<a href='./index.html?pag=0&index=${index}'>
+    document.getElementById('paginacao').innerHTML = `<a href='./index.html?pag=0'>
     First</a>`
 
     for (j = pag - 1; j < pag + 4; j++) {
-        if (j > 0) {
-            document.getElementById('paginacao').innerHTML += ` <a href='./index.html?pag=${j-1}&index=${index}'>
+        if (j > 0 && j <= tamanhoPag) {
+            document.getElementById('paginacao').innerHTML += ` <a href='./index.html?pag=${j-1}'>
             ${j}</a> `
         }
     }
 
-    document.getElementById('paginacao').innerHTML += `<a href='./index.html?pag=${tamanhoPag}&index=${index}'>
+    document.getElementById('paginacao').innerHTML += `<a href='./index.html?pag=${tamanhoPag-1}'>
     Last</a>`
 
     document.getElementById('paginacao').innerHTML += "<br><a href='./index.html'>Go back</a>"
@@ -68,6 +72,12 @@ function index() {
     // Do something with the data
     document.getElementById('Chuck').innerHTML = json.value
     });
+
+    fetch('https://api.thecatapi.com/v1/images/search')
+    .then((response) => response.json())
+    .then(json => {
+    document.getElementById('cat').setAttribute('src', json[0].url)
+    });
 }
 
 function page1() {
@@ -76,7 +86,7 @@ function page1() {
     let lista = document.getElementById('listagem')
     var pag = parseInt(params.get('pag'));
 
-    if (pag == null) {
+    if (pag == null || isNaN(pag)) {
         pag = 0;
     }
 
@@ -92,35 +102,43 @@ function page1() {
     .then((response) => response.json())
     .then(json => {
     // Do something with the data
-    spells = json.results
-    var tamanhoPag = Math.floor(spells.length / 10)
+    options = json.results
+    console.log(options)
+    var tamanhoPag = Math.ceil(options.length / 10)
 
     for (i = paginacao; i <  paginacao + 10; i++) {
-        lista.innerHTML += `<li><a href='./pageDesc.html?index=${index}&desc=${spells[i].index}'>${i+1}. ${spells[i].name}</a></li>`
+        if (options.length == i) {
+            break;
+        }
+        lista.innerHTML += `<li><a href='./pageDesc.html?index=${index}&desc=${options[i].index}'>${i+1}. ${options[i].name}</a></li>`
     }
 
     document.getElementById('paginacao').innerHTML = `<a href='./index.html?pag=0&index=${index}'>
     First</a>`
 
     for (j = pag - 1; j < pag + 4; j++) {
-        if (j > 0) {
+        if (j > 0 && j <= tamanhoPag) {
             document.getElementById('paginacao').innerHTML += ` <a href='./index.html?pag=${j-1}&index=${index}'>
             ${j}</a> `
         }
     }
 
-    document.getElementById('paginacao').innerHTML += `<a href='./index.html?pag=${tamanhoPag}&index=${index}'>
+    document.getElementById('paginacao').innerHTML += `<a href='./index.html?pag=${tamanhoPag-1}&index=${index}'>
     Last</a>`
 
     document.getElementById('paginacao').innerHTML += "<br><a href='./index.html'>Go back</a>"
     });
 
-
-    fetch('https://api.thecatapi.com/v1/images/search')
+    fetch('https://api.chucknorris.io/jokes/random')
     .then((response) => response.json())
     .then(json => {
     // Do something with the data
-    console.log(json)
+    document.getElementById('Chuck').innerHTML = json.value
+    });
+    
+    fetch('https://api.thecatapi.com/v1/images/search')
+    .then((response) => response.json())
+    .then(json => {
     document.getElementById('cat').setAttribute('src', json[0].url)
     });
 }
@@ -135,6 +153,7 @@ function pageDesc() {
     .then(response => response.json())
     .then(json => {
         desc = json
+        console.log(desc)
         div.innerHTML = `
             <h1>${desc.name}</h1>
             <p>${desc.desc}</p>`

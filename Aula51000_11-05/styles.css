@@ -1,16 +1,42 @@
 body {
+    height: 95vh;
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 20px;
+
+    display: grid;
+    grid-template: 50px 60px 230px 60px 1fr / 1fr 400px 1fr;
+    overflow-x: hidden;
+}
+
+#Chuck {
+    width: 130vw;
+    grid-column: 1 / 4;
+    animation: moveText 25s linear infinite;
+}
+
+@keyframes moveText {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-70%);
+    }
 }
 
 #Titulo {
+    grid-area: 2 / 2;
     color: #333;
 }
 
 #listagem {
+    grid-area: 3 / 2;
     list-style-type: none;
     padding-left: 20px;
+}
+
+#paginacao {
+    grid-area: 4 / 2;
 }
 
 a {
@@ -19,7 +45,25 @@ a {
 }
 
 #cat {
+    grid-area: 5 / 2;
+    overflow: hidden;
     max-width: 100%;
     height: auto;
     margin-top: 20px;
+
+    animation: fadeIn 5s linear;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateX(-150%);
+    }
+    50% {
+        transform: translateX(130%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0%);
+    }
 }
